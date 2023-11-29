@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borders - Geografree</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+</head>
+<body>
+    <div class="navbaroutside">
+        <div class="navbar">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('quizzes') }}">Quizzes</a>
+            <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+                
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+
+        {% if current_user.is_authenticated %}
+            <div class="authenticated">
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <a class="userdisplay">{{ current_user.username }}</a>
+                <img id="favourite-flag" class="favourite-flag" src="" alt="Favourite Flag">
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">BORDERS QUIZZES</h1>
+        <div class="quiz-categories">
+            <button onclick="location.href='/borders_riddle_board'">WORLD BORDERS RIDDLE BOARD</button>
+            <button onclick="location.href='/landlocked_countries_naming_challenge'">LANDLOCKED COUNTRIES NAMING CHALLENGE </button>
+        </div>
+
+    </div>
+</body>
+</html>

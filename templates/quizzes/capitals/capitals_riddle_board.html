@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Capitals Riddle Board</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='capitals_quizzes/capitals_riddle_board.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+</head>
+<body>
+    <div class="navbaroutside">
+        <div class="navbar">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('quizzes') }}">Quizzes</a>
+            <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+                
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+
+        {% if current_user.is_authenticated %}
+            <div class="authenticated">
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <a class="userdisplay">{{ current_user.username }}</a>
+                <img id="favourite-flag" class="favourite-flag" src="" alt="Favourite Flag">
+            </div>
+        {% endif %}
+    </div>
+    
+
+
+
+
+
+    
+
+    
+
+        <h1>Capitals Riddle Board</h1>
+        <p>Use the clues to work out the answer to each cell in 15 minutes</p>
+        {% if current_user.is_authenticated %}
+            <div id="highScoreContainer">
+                High Score: <span id="highScore">0</span>
+            </div>
+        {% endif %}
+        <button id="startQuiz">Start Quiz</button>
+
+        
+        <input type="text" id="inputAnswer" placeholder="Enter answer here" disabled>
+        <button id="submitAnswer" disabled>Submit Answer</button>
+
+        <div id="timerDisplay"></div>
+        <div id="scoreDisplay">Score: 0 / 15</div>
+        <button id="giveUp" disabled>Give Up</button>
+
+        <div id="endMessage"></div>
+        <div id="quizContainer">
+            <div id="riddleBoard"></div>
+        </div>
+
+    </div>
+    
+    
+
+
+</body>
+</html>

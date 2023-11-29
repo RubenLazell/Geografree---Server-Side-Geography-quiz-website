@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North American Country Name Challenge - Geografree</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='countries_quizzes/north_american_country_name_challenge.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+</head>
+<body>
+    <div class="navbaroutside">
+        <div class="navbar">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('quizzes') }}">Quizzes</a>
+            <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+                
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+
+        {% if current_user.is_authenticated %}
+            <div class="authenticated">
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <a class="userdisplay">{{ current_user.username }}</a>
+                <img id="favourite-flag" class="favourite-flag" src="" alt="Favourite Flag">
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="quiz-container">
+        <h1>GEOGRAFREE</h1>
+        <h2>NORTH AMERICAN COUNTRY NAME CHALLENGE</h2>
+        <p>Simply name as many North American countries as you can in 10 minutes!</p>
+        {% if current_user.is_authenticated %}
+            <div id="highScoreContainer">
+                High Score: <span id="highScore">0</span>
+            </div>
+        {% endif %}
+        <button id="startButton">START</button>
+        <div id="timer">10:00</div>
+        <input type="text" id="countryInput" placeholder="Type country here">
+        <button id="enterButton">Enter</button>
+        <div id="score"></div>
+        <button id="giveUpButton">Give Up</button>
+
+        <br>
+        <div id="endMessage" style="display: none;"></div>
+    </div>
+</body>
+</html>

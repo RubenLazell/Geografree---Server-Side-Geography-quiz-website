@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countries - Geografree</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+</head>
+<body>
+    <div class="navbaroutside">
+        <div class="navbar">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('quizzes') }}">Quizzes</a>
+            <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+                
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+
+        {% if current_user.is_authenticated %}
+            <div class="authenticated">
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <a class="userdisplay">{{ current_user.username }}</a>
+                <img id="favourite-flag" class="favourite-flag" src="" alt="Favourite Flag">
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">COUNTRY QUIZZES</h1>
+        <div class="quiz-categories">
+            <button onclick="location.href='/world_country_name_challenge'">WORLD COUNTRY NAME QUIZ</button>
+            <button onclick="location.href='/african_country_name_challenge'">AFRICA COUNTRY NAME QUIZ</button>
+            <button onclick="location.href='/asian_country_name_challenge'">ASIA COUNTRY NAME QUIZ</button>
+            <button onclick="location.href='/european_country_name_challenge'">EUROPE COUNTRY NAME QUIZ</button>
+            <button onclick="location.href='/northamerican_country_name_challenge'">NORTH AMERICA COUNTRY NAME QUIZ</button>
+            <button onclick="location.href='/oceanian_country_name_challenge'">OCEANIA COUNTRY NAME QUIZ</button>
+            <button onclick="location.href='/southamerican_country_name_challenge'">SOUTH AMERICA COUNTRY NAME QUIZ</button>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World's Longest Rivers - Geografree</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='rivers_quizzes/longest_rivers.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+</head>
+<body>
+    <div class="navbaroutside">
+        <div class="navbar">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('quizzes') }}">Quizzes</a>
+            <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+                
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+
+        {% if current_user.is_authenticated %}
+            <div class="authenticated">
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <a class="userdisplay">{{ current_user.username }}</a>
+                <img id="favourite-flag" class="favourite-flag" src="" alt="Favourite Flag">
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="quiz-container">
+        <h1>World's Longest Rivers</h1>
+        <p>Enter the name of a river to see if it's one of the world's 25 longest.</p>
+
+        {% if current_user.is_authenticated %}
+            <div id="highScoreContainer">
+                High Score: <span id="highScore">0</span>
+            </div>
+        {% endif %}
+        
+        <button id="startButton">Start Quiz</button>
+        <br>
+        <input type="text" id="riverInput" placeholder="Enter river name">
+        <button id="enterButton">Enter</button>
+        <br>
+        <button id="giveUpButton">Give Up</button>
+
+
+        <table id="riversTable">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Name</th>
+                    <th>Length (miles)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here based on user input -->
+            </tbody>
+        </table>
+        <div id="message" style="margin-top: 20px;"></div>
+
+    </div>
+</body>
+</html>
