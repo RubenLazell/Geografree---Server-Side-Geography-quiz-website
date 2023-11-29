@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import requests
+import os
+
 
 
 
@@ -17,16 +19,21 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///geografree.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-app.secret_key = '123456789'  # Replace this with your secret key
+app.secret_key = os.urandom(24) 
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    country = db.Column(db.String(100))  # Assuming country names are at most 100 characters long
-    favourite_flag = db.Column(db.String(100))  # Assuming it's stored as a string, such as a country code or name
-    dream_holiday = db.Column(db.String(100))  # Assuming a simple description or location name
-    xp = db.Column(db.Integer, default=0)  # Starts at 0 xp and increases as they complete quizzes
+    country = db.Column(db.String(100)) 
+    favourite_flag = db.Column(db.String(100))  
+    dream_holiday = db.Column(db.String(100))  
+    xp = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -78,7 +85,6 @@ def load_user(user_id):
 
 @app.route('/get_countries')
 def get_countries():
-    # Make a request to the REST Countries API
     response = requests.get('https://restcountries.com/v3.1/all')
     countries = [(country['cca2'], country['name']['common']) for country in response.json()]
     return jsonify(countries)
@@ -123,7 +129,6 @@ def quizzes():
 def leaderboard():
     return render_template('leaderboard.html')
 
-# Other imports and code remain unchanged
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
@@ -136,7 +141,7 @@ def profile():
         flash('Profile updated successfully!')
         return redirect(url_for('profile'))
     
-    countries_data = get_countries().get_json()  # Assuming get_countries() returns a Flask response object with JSON
+    countries_data = get_countries().get_json()  
     return render_template('profile.html', user=current_user, countries=countries_data)
 
 
@@ -325,6 +330,6 @@ if __name__ == '__main__':
     with app.app_context():
         # db.drop_all()
         db.create_all()
-    app.run(debug=True)
+    app.run(debug=False)
 
 

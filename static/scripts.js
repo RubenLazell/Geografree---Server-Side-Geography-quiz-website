@@ -62,13 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 tbody.appendChild(row);
             });
 
-            // Highlight the current user's row if they are on the leaderboard
-            if (data.some(user => user.username === '{{ current_user.username }}')) {
-                let currentUserRow = [...tbody.children].find(row => row.cells[1].textContent === '{{ current_user.username }}');
-                if (currentUserRow) {
-                    currentUserRow.classList.add('you');
-                }
-            }
+            
         })
         .catch(error => console.error('Error fetching leaderboard:', error));
 });
