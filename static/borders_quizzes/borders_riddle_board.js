@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     createRiddleBoard(); // Make sure to call this function to create the board initially
 
-    // Function to update score display
     const updateScoreDisplay = () => {
         scoreDisplay.textContent = `Score: ${score} / ${15}`;
     };

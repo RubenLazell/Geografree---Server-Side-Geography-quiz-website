@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     cell.className = 'riddle-cell reference-cell';
                     // Updated logic for displaying row or column index, skipping the first cell
                     if (i === 0 && j > 0) {
-                        cell.value = j.toString(); // Top row, excluding first cell
+                        cell.value = j.toString(); 
                     } else if (j === 0 && i > 0) {
                         cell.value = String.fromCharCode(65 + i - 1); // Left column, excluding first cell
                     }

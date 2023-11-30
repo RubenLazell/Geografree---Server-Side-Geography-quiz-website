@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             if (data.status === 'success') {
                 console.log(`High score updated to ${data.new_high_score}`);
-                highScoreElement.textContent = data.new_high_score; // Update on-page high score
+                highScoreElement.textContent = data.new_high_score;
             } else {
                 console.error('Failed to update high score');
             }

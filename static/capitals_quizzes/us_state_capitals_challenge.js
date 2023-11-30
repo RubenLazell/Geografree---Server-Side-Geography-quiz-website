@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'credentials': 'same-origin'  // Ensure cookies (session) are included
+                'credentials': 'same-origin'  
             },
             body: JSON.stringify({ xp: xpGained })
         })

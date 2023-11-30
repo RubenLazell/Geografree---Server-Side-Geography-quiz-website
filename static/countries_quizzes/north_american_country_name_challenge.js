@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let countries = [];
     let timer = null;
     let timeRemaining = 10 * 60; // 10 minutes in seconds
-    let totalCountries = 0; // Total number of countries
+    let totalCountries = 0; 
 
 
     startButton.addEventListener('click', startQuiz);

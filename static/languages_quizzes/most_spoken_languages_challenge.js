@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         languageInput.disabled = true;
         startButton.disabled = true;
         showMessage(`Quiz over! Your score is ${score} out of ${totalCountries} and you have earned ${calculateXP(score, totalCountries)} xp.`);
-        updateXP(score); // Update XP based on the score
+        updateXP(score); 
         if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
             updateHighScore(score);
         }    }
@@ -77,9 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (languageIndex !== -1 && languagesTableBody.rows[languageIndex].hidden) {
             revealLanguage(languageIndex);
-            score++; // Increase score for a correct answer
+            score++; 
             showMessage(`Correct! ${languages[languageIndex].name} is one of the world's most spoken languges.`);
-            languageInput.value = ''; // Clear the input field
+            languageInput.value = ''; 
             if (countRevealedRows() === languages.speakers) {
                 endQuizSuccess();
             }
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
             updateHighScore(score);
         }
-        languageInput.value = ''; // Clear any remaining text in the input field
+        languageInput.value = ''; 
     }
     
 
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const row = languagesTableBody.rows[index];
         row.cells[1].innerText = languages[index].name;
         row.cells[2].innerText = languages[index].speakers;
-        row.hidden = false; // Reveal the row
+        row.hidden = false; 
     }
 
     function normalizeString(str) {
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateXP(score, totalCountries) {
         const percentage = (score / totalCountries) * 100;
         if (percentage === 100) {
-            return 100; // Full marks
+            return 100; 
         } else if (percentage >= 80) {
             return 80;
         } else if (percentage >= 60) {
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'credentials': 'same-origin'  // Ensure cookies (session) are included
+                'credentials': 'same-origin' 
             },
             body: JSON.stringify({ xp: xpGained })
         })
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateHighScore(newScore) {
         const highScoreElement = document.getElementById('highScore');
         if (!highScoreElement) {
-            return; // Exit the function if there is no high score element
+            return; 
         }
         
         fetch(`/update_high_score/${quizName}`, {
@@ -192,13 +192,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ new_score: newScore }),
-            credentials: 'same-origin' // Correct credentials policy for same-origin requests
+            credentials: 'same-origin' 
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 console.log(`High score updated to ${data.new_high_score}`);
-                highScoreElement.textContent = data.new_high_score; // Update on-page high score
+                highScoreElement.textContent = data.new_high_score; 
             } else {
                 console.error('Failed to update high score');
             }

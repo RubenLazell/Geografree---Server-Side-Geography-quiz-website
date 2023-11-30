@@ -221,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
             checkAnswer();
         }
     });
+    
 
     fetchRivers();
 });

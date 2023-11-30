@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
 
     
-    let timer; // Declare timer in the outer scope
+    let timer; 
 
     const timerDisplay = document.getElementById('timerDisplay');
     let timeLeft = 30 * 60; // 30 minutes in seconds

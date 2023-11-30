@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let select = document.getElementById('favourite_flag');
         let currentFavouriteFlag = select.getAttribute('data-current');
 
-        // Sort the countries alphabetically by name
         data.sort((a, b) => a[1].localeCompare(b[1]));
 
         data.forEach(country => {
@@ -35,7 +34,7 @@ function fetchAndDisplayFavoriteFlag() {
             if (data && data.favorite_flag) {
                 flagImg.src = `https://flagsapi.com/${data.favorite_flag}/flat/64.png`;
             } else {
-                flagImg.style.display = 'none'; // Hide if no favorite flag is set
+                flagImg.style.display = 'none';
             }
         })
         .catch(error => console.error('Error fetching favorite flag:', error));
@@ -50,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             const tbody = document.querySelector('.leaderboard tbody');
-            tbody.innerHTML = ''; // Clear existing rows
+            tbody.innerHTML = ''; 
 
             data.forEach((user, index) => {
                 const row = document.createElement('tr');

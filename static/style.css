@@ -453,7 +453,7 @@ body {
     }
 
     .leaderboard-container {
-        padding: 5vh; /* Smaller padding for small screens */
+        padding: 5vh; 
         margin-top: 5vh;
     }
 

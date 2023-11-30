@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (score === totalCountries) {
-            console.log("All questions answered, ending quiz."); // Log when all questions are answered
+            console.log("All questions answered, ending quiz."); 
             endQuiz()
         }
     }

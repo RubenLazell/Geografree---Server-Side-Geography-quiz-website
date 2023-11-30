@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateXP(score, totalCountries) {
         const percentage = (score / totalCountries) * 100;
         if (percentage === 100) {
-            return 100; // Full marks
+            return 100;
         } else if (percentage >= 80) {
             return 80;
         } else if (percentage >= 60) {

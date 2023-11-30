@@ -6,8 +6,6 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import requests
 import os
 
-##
-
 
 
 

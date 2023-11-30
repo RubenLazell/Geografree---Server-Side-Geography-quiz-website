@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateHighScore(newScore) {
         const highScoreElement = document.getElementById('highScore');
         if (!highScoreElement) {
-            return; // Exit the function if there is no high score element
+            return;
         }
         
         fetch(`/update_high_score/${quizName}`, {
@@ -225,13 +225,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ new_score: newScore }),
-            credentials: 'same-origin' // Correct credentials policy for same-origin requests
+            credentials: 'same-origin' 
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 console.log(`High score updated to ${data.new_high_score}`);
-                highScoreElement.textContent = data.new_high_score; // Update on-page high score
+                highScoreElement.textContent = data.new_high_score; 
             } else {
                 console.error('Failed to update high score');
             }

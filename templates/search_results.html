@@ -20,6 +20,7 @@
                 <a href="{{ url_for('login') }}">Login</a>
                 <a href="{{ url_for('register') }}">Register</a>
             {% endif %}
+            
         </div>
 
         {% if current_user.is_authenticated %}

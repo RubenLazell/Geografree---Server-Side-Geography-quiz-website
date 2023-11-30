@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let timeRemaining = 20 * 60; // 20 minutes in seconds
     let totalCapitals = 0; // Total number of Capitals
 
-    // Disable elements initially
+   
 
-    // Disable elements initially
+    
     startButton.disabled = false;
     enterButton.disabled = true;
     capitalInput.disabled = true;
