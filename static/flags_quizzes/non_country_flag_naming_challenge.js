@@ -26,10 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
 
     
-    let timer; // Declare timer in the outer scope
+    let timer; 
 
     const timerDisplay = document.getElementById('timerDisplay');
-    let timeLeft = 30 * 60; // 30 minutes in seconds
+    let timeLeft = 30 * 60;
 
     const startButton = document.getElementById('startButton');
 
@@ -44,14 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
     giveUpButton.disabled=true;
 
     
-    function normalizeString(str) {
+    function normaliseString(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
 
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            [array[i], array[j]] = [array[j], array[i]];
         }
     }
     
@@ -65,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 countries = data
                     .filter(country => country.independent === false)
                     .filter(country => {
-                        // Exclude specified countries
                         const excludedCountries = [
                             'Caribbean Netherlands', 
                             'Saint Pierre and Miquelon',
@@ -82,14 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         return !excludedCountries.includes(country.name.common);
                     })
                     .map(country => ({
-                        name: normalizeString(country.name.common),
-                        flag: `https://flagsapi.com/${country.cca2}/flat/64.png` // Assuming 'cca2' is the country code
+                        name: normaliseString(country.name.common),
+                        flag: `https://flagsapi.com/${country.cca2}/flat/64.png`
                     }));
                 
-                shuffleArray(countries); // Shuffle the countries array
-                console.log(countries);
-                totalCountries = countries.length; // Set the total number of countries
-                scoreDisplay.textContent = `0 / ${totalCountries}`; // Update score display with total number of countries
+                shuffleArray(countries);
+                totalCountries = countries.length;
+                scoreDisplay.textContent = `0 / ${totalCountries}`;
             })
             .catch(error => console.error('Error fetching flags:', error));
     }
@@ -97,13 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startQuiz() {
         startTimer()
-        startButton.disabled = true; // Disable start button after starting the quiz
+        startButton.disabled = true;
         enterButton.disabled=false;
         countryInput.disabled=false;
         nextButton.disabled=false;
         prevButton.disabled=false;
         giveUpButton.disabled=false;
-        askNextQuestion(); // Add this call here to display the first state when the quiz starts
+        askNextQuestion();
 
     }
 
@@ -131,12 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
             countryInput.focus();
         }
 
-        console.log(currentQuestionIndex)
-        console.log(countries.length)
+
 
 
         if (currentQuestionIndex ===  countries.length) {
-            console.log("All questions answered, ending quiz."); // Log when all questions are answered
             endQuiz()
         }
     }
@@ -144,17 +140,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkAnswer() {
         const userAnswer = countryInput.value.trim().toLowerCase();
         const correctAnswer = countries[currentQuestionIndex].name.toLowerCase();
-
-        // Log the answers to see what is being compared
-        console.log("User Answer:", userAnswer);
-        console.log("Expected Capital:", correctAnswer);
     
         if (userAnswer === correctAnswer) {
             score++;
             scoreDisplay.textContent = `Score: ${score}`;
-            countries.splice(currentQuestionIndex, 1); // Remove the answered question from the array
+            countries.splice(currentQuestionIndex, 1);
             currentQuestionIndex -= 1;
-            moveToNextQuestion(); // Move to the next question
+            moveToNextQuestion();
         } else {
             showMessage("Incorrect answer. Try again!");
         }
@@ -163,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveToNextQuestion() {
         currentQuestionIndex++;
         if (currentQuestionIndex >= countries.length) {
-            currentQuestionIndex = 0; // Reset to the first question
+            currentQuestionIndex = 0;
         }
         askNextQuestion();
     }
@@ -175,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
         } else {
-            // If at the first question, wrap around to the last question
             currentQuestionIndex = countries.length - 1;
         }
         askNextQuestion();
@@ -185,12 +176,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
     nextButton.addEventListener('click', () => {
-        showMessage(""); // Clear the message when moving to the next question
+        showMessage("");
         moveToNextQuestion();
     });
     
     prevButton.addEventListener('click', () => {
-        showMessage(""); // Clear the message when moving to the previous question
+        showMessage("");
         moveToPreviousQuestion();
     });
     
@@ -201,18 +192,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function endQuiz() {
-        clearInterval(timer); // Clear the timer interval
+        clearInterval(timer);
         showMessage(`Quiz over! Your score is ${score} out of ${totalCountries} and you have earned ${calculateXP(score, totalCountries)} xp.`);
         disableQuizInteraction();
-        updateXP(score); // Update XP based on the score
+        updateXP(score);
         if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
             updateHighScore(score);
         }
-        countryInput.value = ''; // Clear the input bar
-        nextButton.disabled = true; // Disable the next button
+        countryInput.value = '';
+        nextButton.disabled = true;
         enterButton.disabled = true;
-        stateQuestion.textContent = ''; // Clear the state question display
-        countryInput.placeholder = ''; // Clear the state question display
+        stateQuestion.textContent = '';
+        countryInput.placeholder = '';
 
 
 
@@ -221,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showMessage(message) {
         
-        console.log("Displaying message:", message); // Log the message being displayed
         endMessage.textContent = message;
         endMessage.style.display = 'block';
     }
@@ -238,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateXP(score, totalCountries) {
         const percentage = (score / totalCountries) * 100;
         if (percentage === 100) {
-            return 100; // Full marks
+            return 100;
         } else if (percentage >= 80) {
             return 80;
         } else if (percentage >= 60) {
@@ -257,14 +247,13 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'credentials': 'same-origin'  // Ensure cookies (session) are included
+                'credentials': 'same-origin'
             },
             body: JSON.stringify({ xp: xpGained })
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                console.log(`XP updated to ${data.new_xp}`);
             } else {
                 console.error('Failed to update XP');
             }
@@ -289,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateHighScore(newScore) {
         const highScoreElement = document.getElementById('highScore');
         if (!highScoreElement) {
-            return; // Exit the function if there is no high score element
+            return;
         }
         
         fetch(`/update_high_score/${quizName}`, {
@@ -298,12 +287,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ new_score: newScore }),
-            credentials: 'same-origin' // Correct credentials policy for same-origin requests
+            credentials: 'same-origin'
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                console.log(`High score updated to ${data.new_high_score}`);
                 highScoreElement.textContent = data.new_high_score; 
             } else {
                 console.error('Failed to update high score');

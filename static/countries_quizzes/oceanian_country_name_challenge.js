@@ -1,16 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    /////////////////////////////
     const quizName = 'oceanian_country_name_challenge';
-    /////////////////////////////
     const startButton = document.getElementById('startButton');
     const enterButton = document.getElementById('enterButton');
     const countryInput = document.getElementById('countryInput');
     const timerDisplay = document.getElementById('timer');
     const scoreDisplay = document.getElementById('score');
     const giveUpButton = document.getElementById('giveUpButton');
-    /////////////////////////////
     const highScoreElement = document.getElementById('highScore');
-    /////////////////////////////
 
     if (highScoreElement) {
         fetchHighScore();
@@ -42,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    function normalizeString(str) {
+    function normaliseString(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
     
@@ -52,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 countries = data
                 .filter(country => country.region === 'Oceania' && country.independent === true) 
-                    .map(country => normalizeString(country.name.common)); 
+                    .map(country => normaliseString(country.name.common)); 
     
                 totalCountries = countries.length; 
                 scoreDisplay.textContent = `0 / ${totalCountries}`; 
@@ -209,13 +205,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ new_score: newScore }),
-            credentials: 'same-origin' // Correct credentials policy for same-origin requests
+            credentials: 'same-origin'
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 console.log(`High score updated to ${data.new_high_score}`);
-                highScoreElement.textContent = data.new_high_score; // Update on-page high score
+                highScoreElement.textContent = data.new_high_score;
             } else {
                 console.error('Failed to update high score');
             }

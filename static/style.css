@@ -1,5 +1,5 @@
 body {
-    background-color: #FFF2CC; /* Beige background color */
+    background-color: #FFF2CC; /* Beige background colour */
     font-family: 'Courier New', Courier, monospace; /* Default font */
     margin: 0;
     padding: 0;
@@ -34,7 +34,7 @@ body {
 
 .userdisplay{
     position: relative;
-    padding: 0vh 0vw; /* Use vh for vertical padding and vw for horizontal padding */
+    padding: 0vh 0vw; 
     top: 0;
     right: 0;
 }
@@ -126,15 +126,15 @@ body {
     max-width: 125vw; /* Maximum width */
     margin: 2.5vh auto; /* Centering the container */
     text-align: center; /* Centering the text within the container */
-    background-color: #FFF2CC; /* Background color */
+    background-color: #FFF2CC; /* Background colour */
     border-radius: 1.25vh; /* Rounded corners */
     box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.1); /* Shadow for depth */
 }
 
 .leaderboard {
-    width: 100%; /* Table will take up 100% of the .leaderboard-container width */
+    width: 100%; /* Table will take 100% of the .leaderboard-container width */
     border-collapse: collapse;
-    table-layout: fixed; /* Ensures that columns are of equal width */
+    table-layout: fixed; /* Ensures that columns of equal width */
 }
 
 .leaderboard th, .leaderboard td {
@@ -184,7 +184,7 @@ body {
     display: block;
     text-align: center;
     font-size: 1.2em;
-    line-height: 4.75vh; /* Adjust the line height to vertically center the icon */
+    line-height: 4.75vh; 
 }
 
 .profile-info {
@@ -238,10 +238,10 @@ body {
 }
 
 .login_container {
-    max-width: 62.5vw; /* Adjusted for narrower form */
+    max-width: 62.5vw;
     margin: auto;
     text-align: center;
-    background-color: #FFF2CC; /* Ensuring background consistency */
+    background-color: #FFF2CC;
     padding: 2.5vh;
     border-radius: 1.25vh; /* Rounded corners */
 }
@@ -257,7 +257,7 @@ body {
 }
 
 .form-group input {
-    width: calc(100% - 2.75vw); /* Adjust input width to account for padding and border */
+    width: calc(100% - 2.75vw);
     padding: 1.25vh;
     margin-bottom: 1.25vh;
     border: 0.125vw solid #333;
@@ -282,14 +282,14 @@ body {
     background-color: transparent;
     color: #333;
     border: 0.25vw solid #333;
-    margin-top: 3.75vh; /* More space above 'create account' button */
+    margin-top: 3.75vh; /* More space above create account button */
     padding: 1.25vh 0;
 }
 
 .register-form {
-    max-width: 62.5vw; /* Adjusted for narrower form */
+    max-width: 62.5vw; 
     margin: auto;
-    background-color: #FFF2CC; /* Ensuring background consistency */
+    background-color: #FFF2CC; 
     border-radius: 1.25vh; /* Rounded corners */
 }
 
@@ -304,7 +304,7 @@ body {
 }
 
 .form-group input {
-    width: calc(100% - 2.75vw); /* Adjust input width to account for padding and border */
+    width: calc(100% - 2.75vw);
     padding: 1.25vh;
     margin-bottom: 1.25vh;
     border: 0.125vw solid #333;
@@ -339,14 +339,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px; /* Adjust the margin as needed to move the board up */
+    margin-top: 20px; 
 }
 
 
 
 
 #submitAnswer {
-    display: block; /* Use block to fill the width of its container */
+    display: block; 
     padding: 0.5rem 1rem;
     font-size: 2.5vh; /* Increase font size for better readability */
 
@@ -363,8 +363,8 @@ body {
 
 /* Updated .riddle-cell class for textarea */
 .riddle-cell {
-    width: 15vw; /* Adjust width */
-    height: 15vh; /* Adjust height */
+    width: 15vw; 
+    height: 15vh;
     padding: 1vw;
     font-size: 2.25vh;
     margin: 0.5vw;
@@ -382,16 +382,16 @@ body {
 
 }
 
-/* Style for the clue cells */
+
 .clue-cell {
-    background-color: #fff; /* or any color indicating interactivity */
+    background-color: #fff; 
 }
 
 /* Style for the reference cells */
 .reference-cell {
-    background-color: #f0f0f0; /* a different color indicating non-interactivity */
-    pointer-events: none; /* This disables clicking on the cells */
-    color: #ccc; /* a lighter font color to show these are not active */
+    background-color: #f0f0f0; /* different colour indicating non-interactivity */
+    pointer-events: none; /* disables clicking on the cells */
+    color: #ccc; /* lighter font colour to show these are not active */
 }
 
 #resultMessage {

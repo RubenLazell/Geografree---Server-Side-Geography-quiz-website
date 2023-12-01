@@ -89,10 +89,10 @@ def get_countries():
     countries = [(country['cca2'], country['name']['common']) for country in response.json()]
     return jsonify(countries)
 
-@app.route('/get_favorite_flag')
+@app.route('/get_favourite_flag')
 @login_required
-def get_favorite_flag():
-    return jsonify({'favorite_flag': current_user.favourite_flag})
+def get_favourite_flag():
+    return jsonify({'favourite_flag': current_user.favourite_flag})
 
 @app.route('/update_xp', methods=['POST'])
 @login_required

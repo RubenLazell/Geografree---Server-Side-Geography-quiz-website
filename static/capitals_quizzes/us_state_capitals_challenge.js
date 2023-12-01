@@ -24,14 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
 
     
-    let timer; // Declare timer in the outer scope
+    let timer;
 
     const timerDisplay = document.getElementById('timerDisplay');
-    let timeLeft = 20 * 60; // 20 minutes in seconds
-
+    let timeLeft = 20 * 60;
     const startButton = document.getElementById('startButton');
 
-    // Start button event listener
     startButton.addEventListener('click', startQuiz);
 
     startButton.disabled=false;
@@ -48,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            [array[i], array[j]] = [array[j], array[i]];
         }
     }
     
@@ -57,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('/static/json/us_states.json')
             .then(response => response.json())
             .then(data => {
-                // shuffleArray(data); // Shuffle the states array for random order
+                // shuffleArray(data);
                 statesWithCapitals = data;
                 statesWithCapitalsfull =data.length;
 
@@ -69,13 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startQuiz() {
         startTimer()
-        startButton.disabled = true; // Disable start button after starting the quiz
+        startButton.disabled = true;
         enterButton.disabled=false;
         capitalInput.disabled=false;
         nextButton.disabled=false;
         prevButton.disabled=false;
         giveUpButton.disabled=false;
-        askNextQuestion(); // Add this call here to display the first state when the quiz starts
+        askNextQuestion();
 
     }
 
@@ -102,18 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (currentQuestionIndex ===  statesWithCapitals.length) {
-            console.log("All questions answered, ending quiz."); // Log when all questions are answered
+            console.log("All questions answered, ending quiz.");
             showMessage(`Quiz over! Your score is ${score} out of ${statesWithCapitalsfull} and you have earned ${calculateXP(score, statesWithCapitalsfull)} xp.`);
             disableQuizInteraction();
-            updateXP(score); // Update XP based on the score
+            updateXP(score);
             if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
                 updateHighScore(score);
             }
-            capitalInput.value = ''; // Clear the input bar
-            nextButton.disabled = true; // Disable the next button
+            capitalInput.value = '';
+            nextButton.disabled = true;
             enterButton.disabled = true;
-            stateQuestion.textContent = ''; // Clear the state question display
-            capitalInput.placeholder = ''; // Clear the state question display
+            stateQuestion.textContent = '';
+            capitalInput.placeholder = '';
         }
     }
 
@@ -125,9 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
             showMessage("");
             score++;
             scoreDisplay.textContent = `Score: ${score}`;
-            statesWithCapitals.splice(currentQuestionIndex, 1); // Remove the answered question from the array
+            statesWithCapitals.splice(currentQuestionIndex, 1);
             currentQuestionIndex -= 1;
-            moveToNextQuestion(); // Move to the next question
+            moveToNextQuestion();
         } else {
             showMessage("Incorrect answer. Try again!");
         }
@@ -136,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveToNextQuestion() {
         currentQuestionIndex++;
         if (currentQuestionIndex >= statesWithCapitals.length) {
-            currentQuestionIndex = 0; // Reset to the first question
+            currentQuestionIndex = 0; 
         }
         askNextQuestion();
     }
@@ -148,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
         } else {
-            // If at the first question, wrap around to the last question
             currentQuestionIndex = statesWithCapitals.length - 1;
         }
         askNextQuestion();
@@ -158,12 +155,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
     nextButton.addEventListener('click', () => {
-        showMessage(""); // Clear the message when moving to the next question
+        showMessage("");
         moveToNextQuestion();
     });
     
     prevButton.addEventListener('click', () => {
-        showMessage(""); // Clear the message when moving to the previous question
+        showMessage("");
         moveToPreviousQuestion();
     });
     
@@ -176,16 +173,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function endQuiz() {
         showMessage(`Quiz over! Your score is ${score} out of ${statesWithCapitalsfull} and you have earned ${calculateXP(score, statesWithCapitalsfull)} xp.`);
         disableQuizInteraction();
-        updateXP(score); // Update XP based on the score
+        updateXP(score);
         if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
             updateHighScore(score);
         }
-        clearInterval(timer); // Clear the timer interval
-        capitalInput.value = ''; // Clear the input bar
-        nextButton.disabled = true; // Disable the next button
+        clearInterval(timer);
+        capitalInput.value = '';
+        nextButton.disabled = true;
         enterButton.disabled = true;
-        stateQuestion.textContent = ''; // Clear the state question display
-        capitalInput.placeholder = ''; // Clear the state question display
+        stateQuestion.textContent = '';
+        capitalInput.placeholder = '';
 
 
 
@@ -194,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showMessage(message) {
         
-        console.log("Displaying message:", message); // Log the message being displayed
+        console.log("Displaying message:", message);
         endMessage.textContent = message;
         endMessage.style.display = 'block';
     }
@@ -211,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateXP(score, statesWithCapitalsfull) {
         const percentage = (score / statesWithCapitalsfull) * 100;
         if (percentage === 100) {
-            return 100; // Full marks
+            return 100;
         } else if (percentage >= 80) {
             return 80;
         } else if (percentage >= 60) {
@@ -262,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateHighScore(newScore) {
         const highScoreElement = document.getElementById('highScore');
         if (!highScoreElement) {
-            return; // Exit the function if there is no high score element
+            return;
         }
         
         fetch(`/update_high_score/${quizName}`, {
@@ -271,13 +268,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ new_score: newScore }),
-            credentials: 'same-origin' // Correct credentials policy for same-origin requests
+            credentials: 'same-origin'
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 console.log(`High score updated to ${data.new_high_score}`);
-                highScoreElement.textContent = data.new_high_score; // Update on-page high score
+                highScoreElement.textContent = data.new_high_score;
             } else {
                 console.error('Failed to update high score');
             }

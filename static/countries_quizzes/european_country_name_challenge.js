@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     countryInput.disabled = true;
 
     function startQuiz() {
-        startButton.disabled = true; // Disable start button after quiz starts
+        startButton.disabled = true; 
         giveUpButton.disabled = false;
         countryInput.disabled = false;
         enterButton.disabled = false;
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         startTimer();
     }
 
-    function normalizeString(str) {
+    function normaliseString(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
     
@@ -50,11 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 countries = data
-                .filter(country => country.region === 'Europe' && country.independent === true) // filter for Africa
-                    .map(country => normalizeString(country.name.common)); // Normalize and convert to lowercase
+                .filter(country => country.region === 'Europe' && country.independent === true)
+                    .map(country => normaliseString(country.name.common));
     
-                totalCountries = countries.length; // Set the total number of countries in continent
-                scoreDisplay.textContent = `0 / ${totalCountries}`; // Update score display with total number of countries
+                totalCountries = countries.length;
+                scoreDisplay.textContent = `0 / ${totalCountries}`;
             })
             .catch(error => console.error('Error fetching countries:', error));
     }
@@ -85,15 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (countries.includes(userAnswer)) {
             score++;
             scoreDisplay.textContent = `${score}/${totalCountries}`;
-            countries = countries.filter(country => country !== userAnswer); // Remove answered country
-            countryInput.value = ''; // Clear input field
-            countryInput.focus(); // Focus back to input field for next entry
+            countries = countries.filter(country => country !== userAnswer);
+            countryInput.value = ''; 
+            countryInput.focus();
             showMessage("")
 
 
-            // Check if the user has named all countries
             if (score === totalCountries) {
-                endQuizSuccess(); // Call a function to handle the successful completion
+                endQuizSuccess();
             }
 
         } else {
@@ -102,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function endQuizSuccess() {
-        clearInterval(timer); // Stop the timer
+        clearInterval(timer);
         showMessage(`Congratulations! You've named all the countries in Europe! You have earned ${calculateXP(score, totalCountries)} xp.`);
         disableQuizInteraction();
         updateXP(score);
@@ -116,10 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function endQuiz() {
-        clearInterval(timer); // Stop the timer
+        clearInterval(timer);
         showMessage(`Quiz over! Your score is ${score} out of ${totalCountries} and you have earned ${calculateXP(score, totalCountries)} xp.`);
         disableQuizInteraction();
-        updateXP(score); // Update XP based on the score
+        updateXP(score);
         if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
             updateHighScore(score);
         }
@@ -131,13 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function showMessage(message) {
         const endMessageElement = document.getElementById('endMessage');
         endMessageElement.textContent = message;
-        endMessageElement.style.display = 'block'; // Make the message visible
+        endMessageElement.style.display = 'block';
     }
     
     function disableQuizInteraction() {
         enterButton.disabled = true;
         countryInput.disabled = true;
-        startButton.disabled = true; // Optionally disable the start button
+        startButton.disabled = true;
     }
     
     function giveUp() {
@@ -147,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateXP(score, totalCountries) {
         const percentage = (score / totalCountries) * 100;
         if (percentage === 100) {
-            return 100; // Full marks
+            return 100;
         } else if (percentage >= 80) {
             return 80;
         } else if (percentage >= 60) {
@@ -166,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'credentials': 'same-origin'  // Ensure cookies (session) are included
+                'credentials': 'same-origin'
             },
             body: JSON.stringify({ xp: xpGained })
         })
@@ -198,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateHighScore(newScore) {
         const highScoreElement = document.getElementById('highScore');
         if (!highScoreElement) {
-            return; // Exit the function if there is no high score element
+            return;
         }
         
         fetch(`/update_high_score/${quizName}`, {
@@ -207,13 +206,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ new_score: newScore }),
-            credentials: 'same-origin' // Correct credentials policy for same-origin requests
+            credentials: 'same-origin'
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 console.log(`High score updated to ${data.new_high_score}`);
-                highScoreElement.textContent = data.new_high_score; // Update on-page high score
+                highScoreElement.textContent = data.new_high_score;
             } else {
                 console.error('Failed to update high score');
             }

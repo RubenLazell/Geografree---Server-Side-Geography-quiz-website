@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
     let capitals = [];
     let timer = null;
-    let timeRemaining = 20 * 60; // 20 minutes in seconds
-    let totalCapitals = 0; // Total number of Capitals
+    let timeRemaining = 20 * 60;
+    let totalCapitals = 0;
 
    
 
@@ -40,14 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function startQuiz() {
         enterButton.disabled = false;
         capitalInput.disabled = false;
-        startButton.disabled = true; // Disable start button after quiz starts
+        startButton.disabled = true;
         giveUpButton.disabled = false;
 
         fetchCapitals();
         startTimer();
     }
 
-    function normalizeString(str) {
+    function normaliseString(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
     
@@ -57,11 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 capitals = data
                     .filter(country => country.independent === true && country.capital && country.capital.length > 0)
-                    .map(country => normalizeString(country.capital[0])); // Fetch and normalize the first capital name
+                    .map(country => normaliseString(country.capital[0]));
         
-                totalCapitals = capitals.length; // Set the total number of Capitals
+                totalCapitals = capitals.length;
                 totalCountries = totalCapitals
-                scoreDisplay.textContent = `0 / ${totalCapitals}`; // Update score display with total number of Capitals        
+                scoreDisplay.textContent = `0 / ${totalCapitals}`;
                 console.log(capitals);
             })
             .catch(error => console.error('Error fetching Capitals:', error));
@@ -94,21 +94,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (capitals.includes(userAnswer)) {
             score++;
             scoreDisplay.textContent = `${score}/${totalCapitals}`;
-            capitals = capitals.filter(capital => capital !== userAnswer); // Remove answered Capital
-            capitalInput.value = ''; // Clear input field
-            capitalInput.focus(); // Focus back to input field for next entry
+            capitals = capitals.filter(capital => capital !== userAnswer);
+            capitalInput.value = '';
+            capitalInput.focus();
         } else {
             showMessage("Incorrect answer. Try again!");
         }
 
-        // Check if the user has named all Capitals
         if (score === totalCapitals) {
-            endQuizSuccess(); // Call a function to handle the successful completion
+            endQuizSuccess();
         }
     }
 
     function endQuizSuccess() {
-        clearInterval(timer); // Stop the timer
+        clearInterval(timer);
         showMessage(`Congratulations! You've named all the capitals in the world! You have earned ${calculateXP(score, totalCountries)} xp.`);
         disableQuizInteraction();
         giveUpButton.disabled = true;
@@ -119,12 +118,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function endQuiz() {
-        clearInterval(timer); // Stop the timer
+        clearInterval(timer);
         showMessage(`Quiz over! Your score is ${score} out of ${totalCountries} and you have earned ${calculateXP(score, totalCountries)} xp.`);
         disableQuizInteraction();
         giveUpButton.disabled = true;
 
-        updateXP(score); // Update XP based on the score
+        updateXP(score);
         if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
             updateHighScore(score);
         }
@@ -133,13 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function showMessage(message) {
         const endMessageElement = document.getElementById('endMessage');
         endMessageElement.textContent = message;
-        endMessageElement.style.display = 'block'; // Make the message visible
+        endMessageElement.style.display = 'block';
     }
     
     function disableQuizInteraction() {
         enterButton.disabled = true;
         capitalInput.disabled = true;
-        startButton.disabled = true; // Optionally disable the start button
+        startButton.disabled = true;
     }
 
     function giveUp() {
@@ -149,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateXP(score, totalCountries) {
         const percentage = (score / totalCountries) * 100;
         if (percentage === 100) {
-            return 100; // Full marks
+            return 100;
         } else if (percentage >= 80) {
             return 80;
         } else if (percentage >= 60) {
@@ -168,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'credentials': 'same-origin'  // Ensure cookies (session) are included
+                'credentials': 'same-origin'
             },
             body: JSON.stringify({ xp: xpGained })
         })
@@ -200,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateHighScore(newScore) {
         const highScoreElement = document.getElementById('highScore');
         if (!highScoreElement) {
-            return; // Exit the function if there is no high score element
+            return;
         }
         
         fetch(`/update_high_score/${quizName}`, {
@@ -209,13 +208,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ new_score: newScore }),
-            credentials: 'same-origin' // Correct credentials policy for same-origin requests
+            credentials: 'same-origin'
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 console.log(`High score updated to ${data.new_high_score}`);
-                highScoreElement.textContent = data.new_high_score; // Update on-page high score
+                highScoreElement.textContent = data.new_high_score;
             } else {
                 console.error('Failed to update high score');
             }

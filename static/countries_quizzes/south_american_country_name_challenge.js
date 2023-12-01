@@ -11,11 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    /////////////////////////////
     if (highScoreElement) {
         fetchHighScore();
     }
-    /////////////////////////////
 
 
 
@@ -44,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    function normalizeString(str) {
+    function normaliseString(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
     
@@ -54,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 countries = data
                 .filter(country => (country.region === 'Americas' && (country.subregion === 'South America')))
-                .map(country => normalizeString(country.name.common)); 
+                .map(country => normaliseString(country.name.common)); 
     
                 totalCountries = countries.length; 
                 scoreDisplay.textContent = `0 / ${totalCountries}`; 
@@ -110,11 +108,9 @@ document.addEventListener('DOMContentLoaded', () => {
         disableQuizInteraction();
         updateXP(score); 
 
-        //////////////////////////
         if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
             updateHighScore(score);
         }
-        //////////////////////////
 
         giveUpButton.disabled = true;
         countryInput.disabled = true;
@@ -128,11 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
         disableQuizInteraction();
         updateXP(score); 
 
-        ////////////////////////////
         if (score > parseInt(document.getElementById('highScore').textContent)) {
             updateHighScore(score);
         }
-        ///////////////////////////
 
         giveUpButton.disabled = true;
         countryInput.disabled = true;
@@ -192,7 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error updating XP:', error));
     }
 
-    ///////////////////////////////
     function fetchHighScore() {
         fetch(`/get_high_score/${quizName}`)
             .then(response => response.json())
@@ -207,9 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    //////////////////////////////
 
-    //////////////////////////////
     function updateHighScore(newScore) {
         const highScoreElement = document.getElementById('highScore');
         if (!highScoreElement) {
@@ -235,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error updating high score:', error));
     }
-    //////////////////////////////
 
     giveUpButton.addEventListener('click', giveUp);
 

@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    /////////////////////////////
     const quizName = 'world_country_name_challenge';
-    /////////////////////////////
 
     const startButton = document.getElementById('startButton');
     const enterButton = document.getElementById('enterButton');
@@ -9,22 +7,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerDisplay = document.getElementById('timer');
     const scoreDisplay = document.getElementById('score');
     const giveUpButton = document.getElementById('giveUpButton')
-    /////////////////////////////
     const highScoreElement = document.getElementById('highScore');
-    /////////////////////////////
 
-    /////////////////////////////
     if (highScoreElement) {
         fetchHighScore();
     }
-    /////////////////////////////
 
 
     let score = 0;
     let countries = [];
     let timer = null;
-    let timeRemaining = 15 * 60; // 15 minutes in seconds
-    let totalCountries = 0; // Total number of countries
+    let timeRemaining = 15 * 60;
+    let totalCountries = 0;
 
 
     startButton.addEventListener('click', startQuiz);
@@ -36,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     giveUpButton.disabled = true;
     
     function startQuiz() {
-        startButton.disabled = true; // Disable start button after quiz starts
+        startButton.disabled = true;
         fetchCountries();
         startTimer();
         countryInput.disabled = false;
@@ -44,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         giveUpButton.disabled = false;
     }
 
-    function normalizeString(str) {
+    function normaliseString(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
     
@@ -54,10 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 countries = data
                     .filter(country => country.independent === true)
-                    .map(country => normalizeString(country.name.common)); // Normalize and convert to lowercase
+                    .map(country => normaliseString(country.name.common));
     
-                totalCountries = countries.length; // Set the total number of countries
-                scoreDisplay.textContent = `0 / ${totalCountries}`; // Update score display with total number of countries            
+                totalCountries = countries.length;
+                scoreDisplay.textContent = `0 / ${totalCountries}`;
             })
             .catch(error => console.error('Error fetching countries:', error));
     }
@@ -87,15 +81,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (countries.includes(userAnswer)) {
             score++;
             scoreDisplay.textContent = `${score}/${totalCountries}`;
-            countries = countries.filter(country => country !== userAnswer); // Remove answered country
-            countryInput.value = ''; // Clear input field
-            countryInput.focus(); // Focus back to input field for next entry
+            countries = countries.filter(country => country !== userAnswer);
+            countryInput.value = '';
+            countryInput.focus();
             showMessage("");
 
         
-            // Check if the user has named all countries
             if (score === totalCountries) {
-                endQuizSuccess(); // Call a function to handle the successful completion
+                endQuizSuccess();
             }
         } else {
             showMessage("Incorrect answer. Try again!");
@@ -103,15 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function endQuizSuccess() {
-        clearInterval(timer); // Stop the timer
-        //////////////////////////
+        clearInterval(timer);
         showMessage(`Congratulations! You've named all the countries in the world! You have earned ${calculateXP(score, totalCountries)} xp.`);
         disableQuizInteraction();
         updateXP(score);
         if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
             updateHighScore(score);
         }
-        //////////////////////////
 
         countryInput.disabled = true;
         enterButton.disabled = true;
@@ -119,15 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function endQuiz() {
-        clearInterval(timer); // Stop the timer
-        //////////////////////////
+        clearInterval(timer);
         showMessage(`Quiz over! Your score is ${score} out of ${totalCountries} and you have earned ${calculateXP(score, totalCountries)} xp.`);
         disableQuizInteraction();
-        updateXP(score); // Update XP based on the score
+        updateXP(score);
         if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
             updateHighScore(score);
         }
-        //////////////////////////
 
         countryInput.disabled = true;
         enterButton.disabled = true;
@@ -150,11 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
         endQuiz();
     }
 
-    ///////////////////////////////
     function calculateXP(score, totalCountries) {
         const percentage = (score / totalCountries) * 100;
         if (percentage === 100) {
-            return 100; // Full marks
+            return 100;
         } else if (percentage >= 80) {
             return 80;
         } else if (percentage >= 60) {
@@ -173,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'credentials': 'same-origin'  // Ensure cookies (session) are included
+                'credentials': 'same-origin'
             },
             body: JSON.stringify({ xp: xpGained })
         })
@@ -187,14 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error updating XP:', error));
     }
-    
-    ////////////////////////////////
 
-
-
-
-
-    ///////////////////////////////
     function fetchHighScore() {
         fetch(`/get_high_score/${quizName}`)
             .then(response => response.json())
@@ -209,10 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    //////////////////////////////
-    
-
-    //////////////////////////////
     function updateHighScore(newScore) {
         const highScoreElement = document.getElementById('highScore');
         if (!highScoreElement) {
@@ -238,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error updating high score:', error));
     }
-    //////////////////////////////
     
     
 

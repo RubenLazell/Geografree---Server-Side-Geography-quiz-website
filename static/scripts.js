@@ -26,22 +26,22 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-function fetchAndDisplayFavoriteFlag() {
-    fetch('/get_favorite_flag')
+function fetchAndDisplayFavouriteFlag() {
+    fetch('/get_favourite_flag')
         .then(response => response.json())
         .then(data => {
             const flagImg = document.getElementById('favourite-flag');
-            if (data && data.favorite_flag) {
-                flagImg.src = `https://flagsapi.com/${data.favorite_flag}/flat/64.png`;
+            if (data && data.favourite_flag) {
+                flagImg.src = `https://flagsapi.com/${data.favourite_flag}/flat/64.png`;
             } else {
                 flagImg.style.display = 'none';
             }
         })
-        .catch(error => console.error('Error fetching favorite flag:', error));
+        .catch(error => console.error('Error fetching favourite flag:', error));
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    fetchAndDisplayFavoriteFlag();
+    fetchAndDisplayFavouriteFlag();
 });
 
 document.addEventListener('DOMContentLoaded', function() {

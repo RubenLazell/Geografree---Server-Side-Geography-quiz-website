@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
     let rivers = [];
-    let score = 0; // Initialize score
-    let totalCountries = 0; // Total number of countries
+    let score = 0;
+    let totalCountries = 0;
 
 
     startButton.addEventListener('click', startQuiz);
@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 rivers = data;
-                initializeTable();
-                totalCountries = rivers.length; // Set the total number of countries
+                initialiseTable();
+                totalCountries = rivers.length;
 
 
             })
@@ -43,33 +43,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startQuiz() {
-        // startTimer()
-        startButton.disabled=true; // Disable start button after starting the quiz
+
+        startButton.disabled=true;
         enterButton.disabled=false;
         riverInput.disabled=false;
         giveUpButton.disabled=false;
     }
 
 
-    function initializeTable() {
+    function initialiseTable() {
         rivers.forEach(river => {
             const row = riversTableBody.insertRow();
             row.insertCell(0).innerText = river.number;
-            row.insertCell(1).innerText = ''; // Leave the name and length empty initially
+            row.insertCell(1).innerText = ''; 
             row.insertCell(2).innerText = '';
-            row.hidden = true; // Hide the row initially
+            row.hidden = true; 
         });
     }
 
     function checkAnswer() {
-        const userAnswer = normalizeString(riverInput.value.trim());
-        const riverIndex = rivers.findIndex(r => normalizeString(r.name) === userAnswer);
+        const userAnswer = normaliseString(riverInput.value.trim());
+        const riverIndex = rivers.findIndex(r => normaliseString(r.name) === userAnswer);
 
         if (riverIndex !== -1 && riversTableBody.rows[riverIndex].hidden) {
             revealRiver(riverIndex);
-            score++; // Increase score for a correct answer
+            score++;
             showMessage(`Correct! The ${rivers[riverIndex].name} is one of the world's longest rivers.`);
-            riverInput.value = ''; // Clear the input field
+            riverInput.value = '';
             if (countRevealedRows() === rivers.length) {
                 endQuizSuccess();
             }
@@ -80,24 +80,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function giveUpQuiz() {
-        rivers.forEach((_, index) => revealRiver(index)); // Reveal all rivers
+        rivers.forEach((_, index) => revealRiver(index));
         giveUpButton.disabled = true;
         enterButton.disabled = true;
         riverInput.disabled = true;
         startButton.disabled=true;
         showMessage(`Quiz over! Your score is ${score} out of ${totalCountries} and you have earned ${calculateXP(score, totalCountries)} xp.`);
-        updateXP(score); // Update XP based on the score
+        updateXP(score); 
         if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
             updateHighScore(score);
         }   
     }
 
-    // Attach event listener to the Give Up button
+
     giveUpButton.addEventListener('click', giveUpQuiz);
 
     function endQuizSuccess() {
         showMessage(`Quiz over! Your score is ${score} out of ${totalCountries} and you have earned ${calculateXP(score, totalCountries)} xp.`);
-        updateXP(score); // Update XP based on the score
+        updateXP(score);
         if (highScoreElement && score > parseInt(highScoreElement.textContent)) {
             updateHighScore(score);
         }
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         enterButton.disabled = true;
         riverInput.disabled = true;
         startButton.disabled=true;
-        riverInput.value = ''; // Clear any remaining text in the input field
+        riverInput.value = '';
     }
 
     
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         row.hidden = false; // Reveal the row
     }
 
-    function normalizeString(str) {
+    function normaliseString(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
 
@@ -166,7 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                console.log(`XP updated to ${data.new_xp}`);
             } else {
                 console.error('Failed to update XP');
             }
@@ -205,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                console.log(`High score updated to ${data.new_high_score}`);
                 highScoreElement.textContent = data.new_high_score; // Update on-page high score
             } else {
                 console.error('Failed to update high score');

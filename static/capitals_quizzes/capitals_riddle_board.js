@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     let timer;
-    let timeRemaining = 15 * 60; // 15 minutes in seconds
+    let timeRemaining = 15 * 60;
     let quizStarted = false;
     let selectedCell = null;
     let score = 0;
@@ -107,13 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     cell.addEventListener('click', () => selectCell(cell));
                 } else {
                     cell.className = 'riddle-cell reference-cell';
-                    // Updated logic for displaying row or column index, skipping the first cell
                     if (i === 0 && j > 0) {
                         cell.value = j.toString(); 
                     } else if (j === 0 && i > 0) {
-                        cell.value = String.fromCharCode(65 + i - 1); // Left column, excluding first cell
+                        cell.value = String.fromCharCode(65 + i - 1);
                     }
-                    cell.readOnly = true; // Make these cells read-only
+                    cell.readOnly = true;
                 }
                 cell.disabled = true;
                 row.appendChild(cell);
@@ -123,15 +122,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    createRiddleBoard(); // Make sure to call this function to create the board initially
+    createRiddleBoard();
 
 
-    // Function to update score display
     const updateScoreDisplay = () => {
         scoreDisplay.textContent = `Score: ${score} / ${15}`;
     };
 
-    // Function to handle giving up
     const giveUpQuiz = () => {
         clearInterval(timer);
         quizStarted = false;
@@ -212,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateXP(score, totalCountries) {
         const percentage = (score / totalCountries) * 100;
         if (percentage === 100) {
-            return 100; // Full marks
+            return 100; 
         } else if (percentage >= 80) {
             return 80;
         } else if (percentage >= 60) {
@@ -231,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'credentials': 'same-origin'  // Ensure cookies (session) are included
+                'credentials': 'same-origin' 
             },
             body: JSON.stringify({ xp: xpGained })
         })
@@ -263,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateHighScore(newScore) {
         const highScoreElement = document.getElementById('highScore');
         if (!highScoreElement) {
-            return; // Exit the function if there is no high score element
+            return;
         }
         
         fetch(`/update_high_score/${quizName}`, {
@@ -272,13 +269,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ new_score: newScore }),
-            credentials: 'same-origin' // Correct credentials policy for same-origin requests
+            credentials: 'same-origin'
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 console.log(`High score updated to ${data.new_high_score}`);
-                highScoreElement.textContent = data.new_high_score; // Update on-page high score
+                highScoreElement.textContent = data.new_high_score;
             } else {
                 console.error('Failed to update high score');
             }
@@ -286,9 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error updating high score:', error));
     }
 
-    // Add the giveUpButton event listener
     giveUpButton.addEventListener('click', giveUpQuiz);
 
-    // Initial call to set the score display to 0
     updateScoreDisplay();
 });

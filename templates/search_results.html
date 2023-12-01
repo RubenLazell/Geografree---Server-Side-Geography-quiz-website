@@ -35,20 +35,19 @@
     <div class="container">
         <h1 class="page-title">SEARCH RESULTS</h1>
         <div id="search-results">
-            <!-- Search results will be populated here -->
+
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Get the search term from the URL
+
             const params = new URLSearchParams(window.location.search);
             const searchTerm = params.get('search');
 
-            // Function to populate search results
+
             function populateResults(searchTerm) {
-                // You would need to fetch your quizzes list or have it defined somewhere
-                // For this example, let's assume you have a predefined list of quizzes
+
                 const quizzes = {
                     'borders': ['borders_riddle_board', 'landlocked_countries_naming_challenge'],
                     'capitals': ['capitals_riddle_board', 'us_state_capitals_challenge', 'world_capitals_by_country', 'world_capitals_naming_challenge', 'world_countries_by_capital'],
@@ -59,29 +58,27 @@
                     };
 
                 const resultsContainer = document.getElementById('search-results');
-                resultsContainer.innerHTML = ''; // Clear out any previous results
+                resultsContainer.innerHTML = ''; 
 
-                // Iterate over the quizzes and match the search term
+
                 Object.keys(quizzes).forEach(category => {
                     quizzes[category].forEach(quizName => {
                         if (quizName.toLowerCase().includes(searchTerm.toLowerCase())) {
                             const link = document.createElement('a');
-                            link.href = `${quizName}`; // Construct the URL
+                            link.href = `${quizName}`; 
                             link.textContent = quizName.replace(/_/g, ' ');
                             quizName.fontsize = 50
                             resultsContainer.appendChild(link);
-                            resultsContainer.appendChild(document.createElement('br')); // Line break for readability
+                            resultsContainer.appendChild(document.createElement('br'));
                         }
                     });
                 });
 
-                // If no quizzes were found, display a message
                 if (resultsContainer.innerHTML === '') {
                     resultsContainer.innerHTML = 'No quizzes found matching your search.';
                 }
             }
 
-            // Call the function with the search term
             if (searchTerm) {
                 populateResults(searchTerm);
             }

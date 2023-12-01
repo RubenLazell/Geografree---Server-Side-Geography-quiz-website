@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     let languages = [];
-    let score = 0; // Initialize score variable
+    let score = 0;
 
     startButton.disabled = false;
     enterButton.disabled= true;
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 languages = data;
-                initializeTable();
+                initialiseTable();
             
             totalCountries= languages.length
 
@@ -37,19 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    function initializeTable() {
+    function initialiseTable() {
         languages.forEach(language => {
             const row = languagesTableBody.insertRow();
             row.insertCell(0).innerText = language.number;
-            row.insertCell(1).innerText = ''; // Leave the name and speakers empty initially
+            row.insertCell(1).innerText = ''; 
             row.insertCell(2).innerText = '';
-            row.hidden = true; // Hide the row initially
+            row.hidden = true;
         });
     }
 
     function startQuiz() {
-        // startTimer()
-        startButton.disabled=true; // Disable start button after starting the quiz
+        startButton.disabled=true;
         enterButton.disabled=false;
         languageInput.disabled=false;
         giveUpButton.disabled=false;
@@ -60,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function giveUpQuiz() {
-        languages.forEach((_, index) => revealLanguage(index)); // Reveal all rivers
+        languages.forEach((_, index) => revealLanguage(index)); 
         giveUpButton.disabled=true;
         enterButton.disabled = true;
         languageInput.disabled = true;
@@ -72,8 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }    }
 
     function checkAnswer() {
-        const userAnswer = normalizeString(languageInput.value.trim());
-        const languageIndex = languages.findIndex(r => normalizeString(r.name) === userAnswer);
+        const userAnswer = normaliseString(languageInput.value.trim());
+        const languageIndex = languages.findIndex(r => normaliseString(r.name) === userAnswer);
 
         if (languageIndex !== -1 && languagesTableBody.rows[languageIndex].hidden) {
             revealLanguage(languageIndex);
@@ -121,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         row.hidden = false; 
     }
 
-    function normalizeString(str) {
+    function normaliseString(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
 
@@ -158,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                console.log(`XP updated to ${data.new_xp}`);
             } else {
                 console.error('Failed to update XP');
             }
@@ -197,7 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                console.log(`High score updated to ${data.new_high_score}`);
                 highScoreElement.textContent = data.new_high_score; 
             } else {
                 console.error('Failed to update high score');
